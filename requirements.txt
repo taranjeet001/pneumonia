@@ -129,8 +129,6 @@ tensorboard
 tensorboard-data-server
 tensorflow
 tensorflow-estimator
-tensorflow-intel
-tensorflow-io-gcs-filesystem
 termcolor
 text-unidecode
 textblob
@@ -155,4 +153,5 @@ Werkzeug
 widgetsnbextension
 wrapt
 xgboost
+
 
