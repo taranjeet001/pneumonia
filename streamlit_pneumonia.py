@@ -6,7 +6,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 
-from keras.preprocessing.image import ImageDataGenerator
+# from keras.preprocessing.image import ImageDataGenerator
+from keras.src.legacy.preprocessing.image import ImageDataGenerator
+
 from sklearn.linear_model import LogisticRegression
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
@@ -15,7 +17,10 @@ from textblob import TextBlob
 import tweepy
 import requests
 
-from mesa import Agent, Model
+# from mesa import Agent, Model
+from mesa.agent import Agent
+from mesa.model import Model
+
 from mesa.time import RandomActivation
 from mesa.space import MultiGrid
 from mesa.datacollection import DataCollector
@@ -68,10 +73,13 @@ if st.session_state.run_triggered:
         train_data = train_datagen.flow_from_directory(train_dir, target_size=(64, 64), batch_size=32, class_mode='binary')
         test_data = test_datagen.flow_from_directory(test_dir, target_size=(64, 64), batch_size=32, class_mode='binary')
 
-        X_train, y_train = train_data.next()
+        # X_train, y_train = train_data.next()
+        X_train, y_train = next(train_data)
+
         X_train = X_train.reshape(X_train.shape[0], -1)
 
-        X_test, y_test = test_data.next()
+        # X_test, y_test = test_data.next()
+        X_test, y_test = next(test_data)
         X_test = X_test.reshape(X_test.shape[0], -1)
 
         log_reg_model = LogisticRegression(max_iter=1000)
@@ -143,12 +151,13 @@ if st.session_state.run_triggered:
     # -------------------- 5. Agent-Based Model --------------------
     class Patient(Agent):
         def __init__(self, uid, model, misinfo_score=0.5):
-            super().__init__(uid, model)
+            Agent.__init__(self, uid, model)   # <-- explicit call
             self.symptom_severity = random.choice([0, 1])
             self.trust_in_clinician = 0.5
             self.misinformation_exposure = misinfo_score
             self.symptom_reporting_accuracy = 1
             self.care_seeking_behavior = 0.5
+
 
         def step(self):
             if self.misinformation_exposure > 0.7 and random.random() < 0.4:
@@ -163,8 +172,9 @@ if st.session_state.run_triggered:
 
     class Clinician(Agent):
         def __init__(self, uid, model):
-            super().__init__(uid, model)
+            Agent.__init__(self, uid, model)   # <-- explicit
             self.trust_in_patient = 0.5
+
 
         def step(self): pass
 
