@@ -98,8 +98,6 @@ pyparsing
 python-dateutil
 python-dotenv
 python-slugify
-pytz
-pywin32
 PyYAML
 pyzmq
 reacton
@@ -157,3 +155,4 @@ Werkzeug
 widgetsnbextension
 wrapt
 xgboost
+
