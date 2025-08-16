@@ -65,8 +65,7 @@ MarkupSafe
 matplotlib
 matplotlib-inline
 mdurl
-Mesa
-Mesa-Viz-Tornado
+Mesa==2.3.2
 ml_dtypes
 namex
 narwhals
@@ -153,5 +152,6 @@ Werkzeug
 widgetsnbextension
 wrapt
 xgboost
+
 
 
